@@ -1,1 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>AI Image Enhancer</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
 
+.box {
+    background: #020617;
+    padding: 25px;
+    border-radius: 12px;
+    width: 360px;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(0,255,255,0.2);
+}
+
+h2 {
+    margin-bottom: 15px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    margin-bottom: 10px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background: #06b6d4;
+    border: none;
+    border-radius: 6px;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #22d3ee;
+}
+
+.loading {
+    display: none;
+    margin-top: 15px;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #1e293b;
+    border-top: 5px solid #22d3ee;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: auto;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+img {
+    max-width: 100%;
+    margin-top: 15px;
+    border-radius: 10px;
+    display: none;
+}
+</style>
+</head>
+<body>
+
+<div class="box">
+    <h2>AI Image Enhancer</h2>
+
+    <input id="imgUrl" placeholder="Masukkan link gambar">
+    <button onclick="enhance()">Enhance Image</button>
+
+    <div class="loading" id="loading">
+        <p>Enhancing Image...</p>
+        <div class="spinner"></div>
+    </div>
+
+    <img id="result">
+</div>
+
+<script>
+function enhance() {
+    const imgUrl = document.getElementById("imgUrl").value;
+    if (!imgUrl) return alert("Masukkan URL gambar!");
+
+    const api = "https://api.zenitsu.web.id/api/tools/hd?imgUrl=" 
+                + encodeURIComponent(imgUrl);
+
+    const img = document.getElementById("result");
+    const loading = document.getElementById("loading");
+
+    img.style.display = "none";
+    loading.style.display = "block";
+
+    img.onload = () => {
+        loading.style.display = "none";
+        img.style.display = "block";
+    };
+
+    img.onerror = () => {
+        loading.style.display = "none";
+        alert("Gagal memproses gambar!");
+    };
+
+    img.src = api;
+}
+</script>
+
+</body>
+</html>
